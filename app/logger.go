@@ -11,13 +11,12 @@ import (
 var logger *zap.Logger
 
 func init() {
-	l, err := zap.NewProduction()
+	var err error
+	logger, err = zap.NewProduction()
 	if err != nil {
 		panic(fmt.Sprintf("failed to initialize logger: %v", err))
 	}
-	defer l.Sync()
-
-	logger = l
+	defer logger.Sync()
 }
 
 var requestLoggerConfig = middleware.RequestLoggerConfig{

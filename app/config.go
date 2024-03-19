@@ -6,23 +6,28 @@ import (
 	"github.com/kelseyhightower/envconfig"
 )
 
-type Config struct {
-	AppEnv AppEnv `envconfig:"APP_ENV" default:"development"`
-
+type config struct {
 	Server struct {
 		Port string `envconfig:"APP_SERVER_PORT" default:"1323"`
 	}
 
-	SecretKey string `envconfig:"SECRET_KEY" default:"my_secret_key"`
-}
-
-var config *Config
-
-func init() {
-	c := &Config{}
-	if err := envconfig.Process("myapp", c); err != nil {
-		panic(fmt.Errorf("error loading config from env: %s", err))
+	RDS struct {
+		Host     string `envconfig:"APP_RDS_HOST" default:"redis"`
+		Port     string `envconfig:"APP_RDS_PORT" default:"6379"`
+		Password string `envconfig:"APP_RDS_PASSWORD" default:""`
+		DB       int    `envconfig:"APP_RDS_DB" default:"0"`
 	}
 
-	config = c
+	JWT struct {
+		ExpirationMinutes int `envconfig:"APP_JWT_EXPIRATION_MINUTES" default:"60"`
+	}
+}
+
+var cfg *config
+
+func init() {
+	cfg = &config{}
+	if err := envconfig.Process("myapp", cfg); err != nil {
+		panic(fmt.Errorf("failed to load config from env: %s", err))
+	}
 }

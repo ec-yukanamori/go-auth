@@ -1,5 +1,5 @@
 {
-	"name": "Existing Docker Compose (Extend)",
+	"name": "Go With Redis",
 	"dockerComposeFile": [
 		"../docker/dev/docker-compose.yml",
 		"docker-compose.yml"
@@ -12,6 +12,7 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
+				"golang.go",
 				"cweijan.vscode-redis-client"
 			]
 		}
